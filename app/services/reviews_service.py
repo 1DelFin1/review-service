@@ -1,6 +1,6 @@
 import asyncio
 
-import aiohttp
+import httpx
 from fastapi import HTTPException, status
 
 from sqlalchemy import select, and_
@@ -14,24 +14,23 @@ from app.models.reviews import ReviewModel
 
 
 class ReviewService:
-    # TODO: переделать под httpx
     @staticmethod
     async def check_purchased_the_user(review_data: ReviewCreateSchema):
         try:
-            async with aiohttp.ClientSession() as session:
+            async with httpx.AsyncClient() as client:
                 url = f"{settings.urls.NGINX_URL}/orders/users/{review_data.user_id}/purchased-products/{review_data.product_id}"
-                async with session.get(url, timeout=10) as response:
-                    if response.status == 200:
-                        data = await response.json()
-                        return data["has_purchased"]
-                    elif response.status == 404:
-                        return False
-                    else:
-                        raise HTTPException(
-                            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-                            detail="Order service unavailable",
-                        )
-        except (aiohttp.ClientError, asyncio.TimeoutError):
+                response = await client.get(url, headers={"Content-Type": "application/json"}, timeout=10, )
+                if response.status_code == 200:
+                    data = response.json()
+                    return data["has_purchased"]
+                elif response.status_code == 404:
+                    return False
+                else:
+                    raise HTTPException(
+                        status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                        detail="Order service unavailable",
+                    )
+        except (httpx.HTTPError, asyncio.TimeoutError):
             raise HTTPException(
                 status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
                 detail="Cannot connect to order service",
