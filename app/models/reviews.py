@@ -1,7 +1,7 @@
 from uuid import UUID, uuid4
 
-from sqlalchemy import Integer, String, ForeignKey, Float
-from sqlalchemy.orm import Mapped, mapped_column, relationship
+from sqlalchemy import Integer, String, Float
+from sqlalchemy.orm import Mapped, mapped_column
 
 from app.core.database import Base
 from app.models.mixins import TimestampMixin

@@ -23,10 +23,10 @@ app.include_router(reviews_router)
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=settings.CORS_ORIGINS,
+    allow_origins=settings.cors.CORS_ORIGINS,
     allow_credentials=True,
-    allow_methods=settings.CORS_METHODS,
-    allow_headers=settings.CORS_HEADERS,
+    allow_methods=settings.cors.CORS_METHODS,
+    allow_headers=settings.cors.CORS_HEADERS,
 )
 
 
