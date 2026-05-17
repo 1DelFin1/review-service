@@ -1,6 +1,8 @@
+from aiormq.tools import awaitable
 from fastapi import APIRouter, Depends
 
 from app.api.deps import SessionDep
+from app.models import ReviewModel
 from app.services import ReviewService
 from app.schemas import ReviewCreateSchema, ReviewUpdateSchema
 
@@ -35,3 +37,11 @@ async def update_review(
 async def delete_review(session: SessionDep, review_id: int):
     review = await ReviewService.delete_review(session, review_id)
     return review
+
+
+@reviews_router.get("/product/{product_id}")
+async def get_product_reviews(
+    session: SessionDep,
+    product_id: int,
+):
+    return await ReviewService.get_product_reviews(session, product_id)

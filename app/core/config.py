@@ -52,8 +52,7 @@ class PostgresConfig(Conf):
 
 
 class RabbitConfig(Conf):
-    PRODUCTS_ROUTING_KEY: str = "products"
-    PRODUCTS_EXCHANGE: str = "products"
+    REVIEWS_ROUTING_KEY: str = "reviews"
     RABBITMQ_URL: str
 
 

@@ -6,15 +6,15 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from app.core.config import settings
-from app.core.clients import BrokerMQ
+from app.core.rabbit_config import rabbit_broker
 from app.api.routers import reviews_router
 
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    await BrokerMQ.start()
+    await rabbit_broker.start()
     yield
-    await BrokerMQ.close()
+    await rabbit_broker.close()
 
 
 app = FastAPI(title="review-service", lifespan=lifespan)

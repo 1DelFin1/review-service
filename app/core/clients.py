@@ -1,6 +1,4 @@
-from faststream.rabbit import RabbitBroker
-
-from app.core.config import settings
+from app.core.rabbit_config import rabbit_broker
 
 
-BrokerMQ = RabbitBroker(settings.rabbitmq.RABBITMQ_URL)
+BrokerMQ = rabbit_broker

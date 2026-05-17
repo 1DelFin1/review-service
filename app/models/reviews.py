@@ -1,6 +1,6 @@
 from uuid import UUID, uuid4
 
-from sqlalchemy import Integer, String, Float
+from sqlalchemy import Integer, String, Float, UniqueConstraint
 from sqlalchemy.orm import Mapped, mapped_column
 
 from app.core.database import Base
@@ -9,6 +9,9 @@ from app.models.mixins import TimestampMixin
 
 class ReviewModel(Base, TimestampMixin):
     __tablename__ = "reviews"
+    __table_args__ = (
+        UniqueConstraint("user_id", "product_id", name="uq_reviews_user_id_product_id"),
+    )
 
     id: Mapped[int] = mapped_column(Integer, primary_key=True, nullable=False)
     user_id: Mapped[UUID] = mapped_column(default=uuid4, nullable=False)

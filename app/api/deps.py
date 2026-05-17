@@ -1,12 +1,9 @@
-from contextlib import asynccontextmanager
 from typing import Annotated, AsyncGenerator
 
 from fastapi import Depends
-from faststream.rabbit import RabbitBroker
 
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.core.clients import BrokerMQ
 from app.core.database import async_session_factory
 
 
